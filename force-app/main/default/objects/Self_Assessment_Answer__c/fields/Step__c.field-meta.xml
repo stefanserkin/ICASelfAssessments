@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Step__c</fullName>
+    <description>The increment between each option in the rating scale. It defines the smallest difference participants can select between the Minimum Value and Maximum Value.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The increment between each option in the rating scale. It defines the smallest difference participants can select between the Minimum Value and Maximum Value.</inlineHelpText>
+    <label>Step</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
