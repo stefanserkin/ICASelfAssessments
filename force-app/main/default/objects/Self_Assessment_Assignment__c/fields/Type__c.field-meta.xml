@@ -16,6 +16,11 @@
                 <label>Pre-Session</label>
             </value>
             <value>
+                <fullName>On Delivery</fullName>
+                <default>false</default>
+                <label>On Delivery</label>
+            </value>
+            <value>
                 <fullName>Post-Session</fullName>
                 <default>false</default>
                 <label>Post-Session</label>
