@@ -1,0 +1,13 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Hello&nbsp;{{{Recipient.FirstName}}},&nbsp;<br />
+<br />
+A new self-assessment has been assigned to you for your participation in {{{Self_Assessment__c.Service_Schedule_Name__c}}}. Please complete it as soon as possible.<br />
+<br />
+<a href="{{{Self_Assessment__c.Public_URL__c}}}"><strong>Complete Your Self-Assessment</strong></a><br />
+<br />
+Thank you,<br />
+ICA Team</body>
+</html>

@@ -1,11 +1,239 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>60.0</apiVersion>
+    <assignments>
+        <name>Increment_Answer_Count</name>
+        <label>Increment Answer Count</label>
+        <locationX>402</locationX>
+        <locationY>1454</locationY>
+        <assignmentItems>
+            <assignToReference>answerCount</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Answer_Response_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Answers_Not_Found_Message</name>
+        <label>Set Answers Not Found Message</label>
+        <locationX>1058</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>strExceptionMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>No questions were found for the self-assessment</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Exception_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Completed_Assessment</name>
+        <label>Set Completed Assessment</label>
+        <locationX>314</locationX>
+        <locationY>2018</locationY>
+        <assignmentItems>
+            <assignToReference>Get_Assessment.Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Assessment.Date_Time_Completed__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Assessment</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Input_Values</name>
+        <label>Set Input Values</label>
+        <locationX>402</locationX>
+        <locationY>1670</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_through_Answers.Answer_Number__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Input_RatingScale_Slider.value</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Loop_through_Answers.Answer_Text_Area__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Input_TextArea</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Answer</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_No_Assessment_Message</name>
+        <label>Set No Assessment Message</label>
+        <locationX>1586</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>strExceptionMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>The self-assessment was not found.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Exception_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Status_to_In_Progress</name>
+        <label>Set Status to In Progress</label>
+        <locationX>50</locationX>
+        <locationY>998</locationY>
+        <assignmentItems>
+            <assignToReference>Get_Assessment.Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>In Progress</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Assessment_to_In_Progress</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Total_Answers</name>
+        <label>Set Total Answers</label>
+        <locationX>314</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>totalAnswers</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>Get_Answers</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Welcome_Screen</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_Assessment_Status</name>
+        <label>Check Assessment Status</label>
+        <locationX>598</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Exception_Screen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Completed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Assessment.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Completed</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Thank_You_Screen</targetReference>
+            </connector>
+            <label>Is Completed</label>
+        </rules>
+        <rules>
+            <name>Is_Outstanding</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Assessment.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Not Started</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Assessment.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>In Progress</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Answers</targetReference>
+            </connector>
+            <label>Is Outstanding</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_for_Not_In_Progress</name>
+        <label>Check for Not In Progress</label>
+        <locationX>314</locationX>
+        <locationY>890</locationY>
+        <defaultConnector>
+            <targetReference>Loop_through_Answers</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Not_In_Progress</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Assessment.Status__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>In Progress</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Status_to_In_Progress</targetReference>
+            </connector>
+            <label>Not In Progress</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Get_Answers</name>
+        <label>Check Get Answers</label>
+        <locationX>686</locationX>
+        <locationY>566</locationY>
+        <defaultConnector>
+            <targetReference>Set_Answers_Not_Found_Message</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Answers Not Found</defaultConnectorLabel>
+        <rules>
+            <name>Got_Answers</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Answers</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Total_Answers</targetReference>
+            </connector>
+            <label>Got Answers</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Check_Get_Assessment</name>
         <label>Check Get Assessment</label>
-        <locationX>176</locationX>
+        <locationX>1092</locationX>
         <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>Set_No_Assessment_Message</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Assessment Not Found</defaultConnectorLabel>
         <rules>
             <name>Got_Assessment</name>
@@ -17,13 +245,31 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <connector>
+                <targetReference>Check_Assessment_Status</targetReference>
+            </connector>
             <label>Got Assessment</label>
         </rules>
     </decisions>
     <description>Screen flow for community pages. Accepts the record id of a Self-Assessment record as a url parameter and allows the user to complete the self-assessment.</description>
     <environments>Default</environments>
     <interviewLabel>SelfAssess SFCP SelfAssessment {!$Flow.CurrentDateTime}</interviewLabel>
+    <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
     <label>SelfAssess SFCP SelfAssessment</label>
+    <loops>
+        <name>Loop_through_Answers</name>
+        <label>Loop through Answers</label>
+        <locationX>314</locationX>
+        <locationY>1346</locationY>
+        <collectionReference>Get_Answers</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Increment_Answer_Count</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Set_Completed_Assessment</targetReference>
+        </noMoreValuesConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -44,9 +290,34 @@
     </processMetadataValues>
     <processType>Flow</processType>
     <recordLookups>
+        <description>Get answer records for the provided self-assessment record id</description>
+        <name>Get_Answers</name>
+        <label>Get Answers</label>
+        <locationX>686</locationX>
+        <locationY>458</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Get_Answers</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Self_Assessment__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>said</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Self_Assessment_Answer__c</object>
+        <sortField>Sort_Order__c</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get the self-assessment record for the provided record id</description>
         <name>Get_Assessment</name>
         <label>Get Assessment</label>
-        <locationX>176</locationX>
+        <locationX>1092</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -64,19 +335,268 @@
         <object>Self_Assessment__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <start>
+    <recordUpdates>
+        <name>Update_Answer</name>
+        <label>Update Answer</label>
+        <locationX>402</locationX>
+        <locationY>1778</locationY>
+        <connector>
+            <targetReference>Loop_through_Answers</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Exception_Screen</targetReference>
+        </faultConnector>
+        <inputReference>Loop_through_Answers</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Assessment</name>
+        <label>Update Assessment</label>
+        <locationX>314</locationX>
+        <locationY>2126</locationY>
+        <connector>
+            <targetReference>Thank_You_Screen</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Exception_Screen</targetReference>
+        </faultConnector>
+        <inputReference>Get_Assessment</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Assessment_to_In_Progress</name>
+        <label>Update Assessment to In Progress</label>
         <locationX>50</locationX>
+        <locationY>1106</locationY>
+        <connector>
+            <targetReference>Loop_through_Answers</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Exception_Screen</targetReference>
+        </faultConnector>
+        <inputReference>Get_Assessment</inputReference>
+    </recordUpdates>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>Answer_Response_Screen</name>
+        <label>Answer Response Screen</label>
+        <locationX>402</locationX>
+        <locationY>1562</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Set_Input_Values</targetReference>
+        </connector>
+        <fields>
+            <name>Answer_Response_Screen_Question</name>
+            <fieldText>&lt;p&gt;&lt;strong&gt;{!Loop_through_Answers.Question__c}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Input_RatingScale_Slider</name>
+            <extensionName>flowruntime:slider</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>max</name>
+                <value>
+                    <elementReference>Loop_through_Answers.Maximum_Value__c</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>min</name>
+                <value>
+                    <elementReference>Loop_through_Answers.Minimum_Value__c</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>size</name>
+                <value>
+                    <stringValue>large</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>step</name>
+                <value>
+                    <elementReference>Loop_through_Answers.Step__c</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>value</name>
+                <value>
+                    <elementReference>Loop_through_Answers.Answer_Number__c</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Loop_through_Answers.Question_Type__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>Rating Scale</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Input_TextArea</name>
+            <fieldText>Your Response</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Loop_through_Answers.Question_Type__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>Text Area</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Answer_Response_Screen_Footer</name>
+            <fieldText>&lt;p&gt;Question {!answerCount} of {!totalAnswers}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Exception_Screen</name>
+        <label>Exception Screen</label>
+        <locationX>1058</locationX>
+        <locationY>782</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Exception_Screen_Msg</name>
+            <fieldText>&lt;p&gt;{!ttDefaultException}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Exception_Screen_Custom_Exception</name>
+            <fieldText>&lt;p&gt;Error: {!strExceptionMessage}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>strExceptionMessage</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <stringValue></stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Thank_You_Screen</name>
+        <label>Thank You Screen</label>
+        <locationX>598</locationX>
+        <locationY>2450</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Thank_You_Screen_Message</name>
+            <fieldText>&lt;p&gt;{!Get_Assessment.Self_Assessment_Template__r.Thank_You_Message__c}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Welcome_Screen</name>
+        <label>Welcome Screen</label>
+        <locationX>314</locationX>
+        <locationY>782</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Check_for_Not_In_Progress</targetReference>
+        </connector>
+        <fields>
+            <name>Welcome_Screen_Body</name>
+            <fieldText>&lt;p&gt;Hi {!Get_Assessment.Contact__r.FirstName}! &lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!Get_Assessment.Self_Assessment_Template__r.Intro_Message__c}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>Start</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>966</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Assessment</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
+    <textTemplates>
+        <name>ttDefaultException</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Hmm... something went wrong.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please contact us to complete your self-assessment.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>answerCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_to_Min_Max_Integers</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Integer__mdt</objectType>
+    </variables>
+    <variables>
+        <name>currentItemFromSourceCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Integer__mdt</objectType>
+    </variables>
     <variables>
         <name>said</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>strExceptionMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>totalAnswers</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
     </variables>
 </Flow>

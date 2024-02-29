@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionNumber>8</activeVersionNumber>
+    <description>Scheduled flow. Handles creation of self-assessments for self-assessment assignments configured to send pre or post-session, based on assignment policies.</description>
+    <masterLabel>SelfAssessAssign SCH CreateAssessments</masterLabel>
+</FlowDefinition>

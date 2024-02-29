@@ -42,6 +42,27 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>answer.Minimum_Value__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_through_Questions.Minimum_Value__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>answer.Maximum_Value__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_through_Questions.Maximum_Value__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>answer.Step__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_through_Questions.Step__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>lstAnswersToInsert</assignToReference>
             <operator>Add</operator>
             <value>

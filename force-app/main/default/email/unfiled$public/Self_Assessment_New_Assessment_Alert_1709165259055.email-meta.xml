@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Sent to contacts for new self-assessment with email alerts enabled</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Self-Assessment New Assessment Alert</name>
+    <relatedEntityType>Self_Assessment__c</relatedEntityType>
+    <style>none</style>
+    <subject>A new self-assessment has been assigned to you</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>
