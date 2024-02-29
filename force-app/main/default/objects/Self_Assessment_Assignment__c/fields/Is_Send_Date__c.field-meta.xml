@@ -4,14 +4,17 @@
     <description>Indicates emails should be sent today</description>
     <externalId>false</externalId>
     <formula>IF(
-  OR(
-    AND(
-      ISPICKVAL( Type__c, &quot;Pre-Session&quot; ), 
-      DATEVALUE( Service_Session__r.pmdm__SessionStart__c ) - Days_Offset__c == TODAY()
-    ), 
-    AND(
-      ISPICKVAL( Type__c, &quot;Post-Session&quot; ), 
-      DATEVALUE( Service_Session__r.pmdm__SessionStart__c ) + Days_Offset__c == TODAY()
+  AND(
+    Send_Email__c, 
+    OR(
+      AND(
+        ISPICKVAL( Type__c, &quot;Pre-Session&quot; ), 
+        DATEVALUE( Service_Session__r.pmdm__SessionStart__c ) - Days_Offset__c == TODAY()
+      ), 
+      AND(
+        ISPICKVAL( Type__c, &quot;Post-Session&quot; ), 
+        DATEVALUE( Service_Session__r.pmdm__SessionStart__c ) + Days_Offset__c == TODAY()
+      )
     )
   ),
   TRUE,

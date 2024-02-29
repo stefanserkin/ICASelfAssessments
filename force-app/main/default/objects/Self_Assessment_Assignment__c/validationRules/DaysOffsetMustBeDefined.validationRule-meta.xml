@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DaysOffsetMustBeDefined</fullName>
+    <active>true</active>
+    <description>Pre or post session assignments must define a number of Days Offset</description>
+    <errorConditionFormula>AND(
+  OR(
+    ISPICKVAL( Type__c, &quot;Pre-Session&quot; ), 
+    ISPICKVAL( Type__c, &quot;Post-Session&quot; )
+  ), 
+  ISBLANK( Days_Offset__c )
+)</errorConditionFormula>
+    <errorDisplayField>Days_Offset__c</errorDisplayField>
+    <errorMessage>Pre or post session assignments must define a number of Days Offset</errorMessage>
+</ValidationRule>

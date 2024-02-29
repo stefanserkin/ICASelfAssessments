@@ -7,7 +7,7 @@
     <inlineHelpText>For pre-session assignments, the number of days before the session to generate assessments. For post-session assignments the number of days after the session has passed. Set to 0 to create assessments on the day of the session.</inlineHelpText>
     <label>Days Offset</label>
     <precision>3</precision>
-    <required>true</required>
+    <required>false</required>
     <scale>0</scale>
     <trackTrending>false</trackTrending>
     <type>Number</type>

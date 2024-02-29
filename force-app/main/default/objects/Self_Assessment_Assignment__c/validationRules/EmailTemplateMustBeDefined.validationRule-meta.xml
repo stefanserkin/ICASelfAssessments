@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EmailTemplateMustBeDefined</fullName>
+    <active>true</active>
+    <description>When Send Email is checked, an Email Template Name must be defined</description>
+    <errorConditionFormula>Send_Email__c &amp;&amp; ISBLANK( Email_Template_Name__c )</errorConditionFormula>
+    <errorDisplayField>Email_Template_Name__c</errorDisplayField>
+    <errorMessage>When Send Email is checked, an Email Template Name must be defined</errorMessage>
+</ValidationRule>
