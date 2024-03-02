@@ -15,6 +15,10 @@
                 <behavior>Edit</behavior>
                 <field>Self_Assessment_Question__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Required__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -41,6 +45,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Question_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Help_Text__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
