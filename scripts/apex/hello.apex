@@ -5,6 +5,9 @@
 // You can also execute the entire file by running the command:
 //     SFDX: Execute Anonymous Apex with Editor Contents
 
-string tempvar = 'Enter_your_name_here';
-System.debug('Hello World!');
-System.debug('My name is ' + tempvar);
+Self_Assessment__c sa = [SELECT Id FROM Self_Assessment__c LIMIT 1];
+System.debug('::::::: sa id --> ' + sa.Id);
+
+List<SelfAssessmentService.Answer> lstAnswers;
+lstAnswers = SelfAssessmentController.getAnswers(sa.Id);
+System.debug('::::::: answers --> ' + lstAnswers);
