@@ -3,63 +3,34 @@
  * @date 2024
  *********************************************/
 public with sharing class SelfAssessmentController {
-    
+
     /***************************************************
-     * Get answers
+     * Get self-assessment
      * @param String Record id of the self assessment
-     * @return Answer[] Collection of Answer data wrappers
+     * @return SelfAssessment with child Answer objects
      ***************************************************/
     @AuraEnabled(cacheable=true)
-    public static List<SelfAssessmentService.Answer> getAnswers(
-        Id selfAssessmentId
+    public static SelfAssessment getSelfAssessment(
+        Id recordId
     ) {
         try {
-            SelfAssessmentService serv = new SelfAssessmentService(selfAssessmentId);
-            return serv.answers;
+            SelfAssessmentService serv = new SelfAssessmentService(recordId);
+            return serv.selfAssessment;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
+    
 
-    /***************************************************
-     * Get new survey response with survey answers
-     * @param String recordId - Survey ID
-     * @return Survey_Question__c[] collection of survey questions
-     ***************************************************/
-    /*
-    @AuraEnabled(cacheable=true)
-    public static List<SurveyQuestionWrapper> initializeSurvey(
-        String recordId
-    ) {
-        List<SurveyQuestionWrapper> lstWrappers = new List<SurveyQuestionWrapper>();
-        for (Survey_Question__c q : getSurveyQuestions(recordId)) {
-            String lightningInputType = DataTypesUtil.getLightningInputType(q.Data_Type__c) != null
-                ? DataTypesUtil.getLightningInputType(q.Data_Type__c)
-                : q.Data_Type__c;
-            SurveyQuestionWrapper qWrap = new SurveyQuestionWrapper();
-            qWrap.id = q.Id;
-            qWrap.sortOrder = q.Sort_Order__c;
-            qWrap.dataType = lightningInputType;
-            qWrap.question = q.Question__c;
-            qWrap.helpText = q.Help_Text__c;
-            qWrap.isRequired = q.Required__c;
-            qWrap.isHidden = q.Hidden__c;
-            qWrap.isStandardInput = lightningInputType != 'Text Area' ? true : false;
-            qWrap.isTextArea = false;
-            lstWrappers.add(qWrap);
-        }
-        return lstWrappers;
-    }
-*/
     /************************************************************************
      * Save survey response and child survey answers
      * @param sObject[] records - Collection of answer objects to save
      * @return Id - Survey response id
      ************************************************************************/
 
-     /*
-     @AuraEnabled(cacheable=false)
-     public static Id submitSurvey(
+    /*
+    @AuraEnabled(cacheable=false)
+    public static Id submitSurvey(
         String recordId, 
         String contactId, 
         List<sObject> answers
@@ -92,50 +63,6 @@ public with sharing class SelfAssessmentController {
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
-    }
-    
-    
-    private static List<Survey_Question__c> getSurveyQuestions(
-        String templateId
-    ) {
-        return [
-            SELECT Id,
-                   Question__c,
-                   Sort_Order__c,
-                   Question_Type__c,
-                   Help_Text__c,
-                   Required__c
-              FROM Self_Assessment_Question__c 
-             WHERE Self_Assessment_Template__c = :templateId 
-             ORDER BY Sort_Order__c ASC
-             LIMIT 10000
-        ];
-    }
-    */
-
-    /************************************************************************
-     * Save survey response and child survey answers
-     * @param sObject[] records - Collection of answer objects to save
-     * @return Id - Survey response id
-     ************************************************************************/
-/*
-    public class SurveyQuestionWrapper {
-        @AuraEnabled
-        public Id id {get;set;}
-        @AuraEnabled
-        public Decimal sortOrder {get;set;}
-        @AuraEnabled
-        public String dataType {get;set;}
-        @AuraEnabled
-        public String question {get;set;}
-        @AuraEnabled
-        public String helpText {get;set;}
-        @AuraEnabled
-        public Boolean isRequired {get;set;}
-        @AuraEnabled
-        public Boolean isHidden {get;set;}
-        @AuraEnabled
-        public Boolean isStandardInput {get;set;}
     }
     */
 

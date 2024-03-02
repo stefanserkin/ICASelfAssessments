@@ -8,6 +8,7 @@
 Self_Assessment__c sa = [SELECT Id FROM Self_Assessment__c LIMIT 1];
 System.debug('::::::: sa id --> ' + sa.Id);
 
-List<SelfAssessmentService.Answer> lstAnswers;
-lstAnswers = SelfAssessmentController.getAnswers(sa.Id);
-System.debug('::::::: answers --> ' + lstAnswers);
+SelfAssessmentService serv = new SelfAssessmentService(sa.Id);
+SelfAssessment assessment = serv.getAssessment();
+System.debug('::::::: assessment --> ' + assessment);
+System.debug('::::::: answers --> ' + assessment.answers);

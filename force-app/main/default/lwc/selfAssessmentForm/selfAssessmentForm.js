@@ -1,5 +1,5 @@
 import { LightningElement, api, wire } from 'lwc';
-import getAnswers from '@salesforce/apex/SelfAssessmentController.getAnswers';
+import getSelfAssessment from '@salesforce/apex/SelfAssessmentController.getSelfAssessment';
 
 export default class SelfAssessmentForm extends LightningElement {
     @api recordId;
@@ -9,22 +9,23 @@ export default class SelfAssessmentForm extends LightningElement {
     isLoading = false;
     error;
 
-    wiredAnswers = [];
+    wiredAssessment = [];
+    assessment;
     answers;
 
-    @wire(getAnswers, {selfAssessmentId: '$recordId'})
+    @wire(getSelfAssessment, {recordId: '$recordId'})
     wiredResult(result) {
         this.isLoading = true;
-        this.wiredAnswers = result;
+        this.wiredAssessment = result;
         if (result.data) {
-            let rows = JSON.parse(JSON.stringify(result.data));
-            this.answers = rows;
+            this.assessment = JSON.parse(JSON.stringify(result.data));
+            this.answers = this.assessment.answers;
             console.log(':::::::: answers --> ');
             console.table(this.answers);
             this.error = undefined;
             this.isLoading = false;
         } else if (result.error) {
-            this.answers = undefined;
+            this.assessment = undefined;
             this.error = result.error;
             console.error(this.error);
             this.isLoading = false;
