@@ -1,9 +1,22 @@
 <template>
-    
-    <div class="slds-var-m-vertical_medium">
-        <!-- Radio Buttons -->
-        <template if:true={isRadio}>
-            <h3 if:true={label} class="slds-var-p-bottom_x-small">{label}</h3>
+    <div class="field-container">
+
+        <!-- FIELD LABEL -->
+        <div class="field-label">
+            <!-- LABEL -->
+            <h3 lwc:if={label}>{label}</h3>
+            <!-- HELP TEXT -->
+            <template lwc:if={helpText}>
+                <lightning-helptext
+                    icon-name="utility:info"
+                    content={helpText}
+                    class="slds-m-left_x-small"
+                ></lightning-helptext>
+            </template>
+        </div>
+
+        <!-- RADIO BUTTONS -->
+        <template lwc:if={isRadio}>
             <div class="radio-group">
                 <template for:each={values} for:item="val">
                     <lightning-input 
@@ -12,27 +25,26 @@
                         label={val} 
                         name="ratingScale" 
                         value={val} 
-                        onchange={handleChange}
+                        onchange={handleChange} 
                     ></lightning-input>
                 </template>
             </div>
         </template>
 
-        <!-- Picklist -->
-        <template if:true={isPicklist}>
+        <!-- PICKLIST -->
+        <template lwc:elseif={isPicklist}>
             <lightning-combobox 
                 name="ratingScale" 
-                label={label} 
                 placeholder="Select"
                 options={picklistOptions} 
-                onchange={handleChange}
+                onchange={handleChange} 
             ></lightning-combobox>
         </template>
 
-        <!-- Slider -->
-        <template if:true={isSlider}>
+        <!-- SLIDER -->
+        <template lwc:elseif={isSlider}>
+            <!-- INPUT -->
             <lightning-slider 
-                label={label} 
                 min={minValue} 
                 max={maxValue} 
                 step={step} 
@@ -40,5 +52,6 @@
                 onchange={handleChange}
             ></lightning-slider>
         </template>
+
     </div>
 </template>

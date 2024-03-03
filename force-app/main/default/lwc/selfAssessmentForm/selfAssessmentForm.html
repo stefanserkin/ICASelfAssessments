@@ -8,7 +8,7 @@
 
         <template lwc:if={assessment}>
             <!-- WELCOME MESSAGE -->
-            <div class="slds-var-m-around_medium">
+            <div class="slds-var-m-around_large">
                 <template lwc:if={assessment.introMessage}>
                     <lightning-formatted-rich-text 
                         value={assessment.introMessage}
@@ -21,24 +21,29 @@
 
             <!-- ANSWERS -->
             <template for:each={answers} for:item="ans">
-                <p key={ans.id} class="slds-var-m-around_medium">
+                <p key={ans.id} class="slds-var-m-around_large">
 
                     <!-- TEXT AREA QUESTIONS -->
                     <template lwc:if={ans.isTextArea}>
                         <lightning-textarea 
                             name="textAreaInput" 
-                            label="Enter some text" 
+                            label={ans.question}
+                            data-id={ans.id}
+                            onchange={handleChange}
                         ></lightning-textarea>
                     </template>
 
                     <!-- RATING SCALE -->
                     <c-rating-scale-field
-                        label={ans.question}
-                        min-value={ans.minValue}
-                        max-value={ans.maxValue}
-                        step={ans.step}
-                        display-type={ans.displayType}
-                        onvaluechange={handleRatingScaleChange}
+                        lwc:elseif={ans.isRatingScale} 
+                        label={ans.question} 
+                        min-value={ans.minValue} 
+                        max-value={ans.maxValue} 
+                        step={ans.step} 
+                        display-type={ans.displayType} 
+                        help-text={ans.helpText} 
+                        data-id={ans.id}
+                        onvaluechange={handleChange}
                     ></c-rating-scale-field>
 
                 </p>

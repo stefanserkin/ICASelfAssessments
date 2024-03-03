@@ -7,3 +7,7 @@
 .lightning-input .radio {
     margin-right: 10px; /* Adjust spacing as needed */
 }
+
+.field-label {
+    display: flex;
+}

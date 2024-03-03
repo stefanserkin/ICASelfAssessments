@@ -19,16 +19,14 @@ export default class SelfAssessmentForm extends LightningElement {
         this.wiredAssessment = result;
         if (result.data) {
             this.assessment = JSON.parse(JSON.stringify(result.data));
-            console.log('assessment --> ',this.assessment);
             this.answers = this.assessment.answers;
             this.answers.forEach(ans => {
                 ans.isTextArea = ans.questionType == 'Text Area';
-                if (ans.questionType == 'Rating Scale') {
+                ans.isRatingScale = ans.questionType == 'Rating Scale';
+                if (ans.isRatingScale) {
                     ans.options = this.getRatingScaleValues(ans);
                 }
             });
-            console.log(':::::::: answers --> ');
-            console.table(this.answers);
             this.error = undefined;
             this.isLoading = false;
         } else if (result.error) {
@@ -47,9 +45,18 @@ export default class SelfAssessmentForm extends LightningElement {
         return values;
     }
 
-    handleRatingScaleChange(event) {
-        const selectedRating = event.detail.value;
-        console.log('Selected rating:', selectedRating);
+    handleChange(event) {
+        const selectedId = event.target.dataset.id;
+        const selectedValue = event.detail.value;
+        const answerIndex = this.answers.findIndex(answer => answer.id === selectedId);
+
+        if (answerIndex !== -1) {
+            if (this.answers[answerIndex].questionType === 'Rating Scale') {
+                this.answers[answerIndex].answerNumber = Number(selectedValue);
+            } else if (this.answers[answerIndex].questionType === 'Text Area') {
+                this.answers[answerIndex].answerText = selectedValue;
+            }
+        }
     }
 
 }

@@ -50,7 +50,6 @@ public with sharing class SelfAssessmentService {
             ans.question = saa.Question__c;
             ans.sortOrder = saa.Sort_Order__c;
             ans.questionType = saa.Question_Type__c;
-            ans.helpText = saa.Help_Text__c;
             ans.required = saa.Required__c;
             ans.minValue = saa.Minimum_Value__c;
             ans.maxValue = saa.Maximum_Value__c;
@@ -58,6 +57,7 @@ public with sharing class SelfAssessmentService {
             ans.answerText = saa.Answer_Text_Area__c;
             ans.answerNumber = saa.Answer_Number__c;
             ans.displayType = saa.Self_Assessment_Question__r.Display_Type__c;
+            ans.helpText = saa.Self_Assessment_Question__r.Help_Text__c;
             answers.add(ans);
         }
 
@@ -82,14 +82,14 @@ public with sharing class SelfAssessmentService {
                            Question__c, 
                            Sort_Order__c, 
                            Question_Type__c, 
-                           Help_Text__c, 
                            Required__c, 
                            Minimum_Value__c, 
                            Maximum_Value__c, 
                            Step__c, 
                            Answer_Text_Area__c, 
                            Answer_Number__c, 
-                           Self_Assessment_Question__r.Display_Type__c
+                           Self_Assessment_Question__r.Display_Type__c, 
+                           Self_Assessment_Question__r.Help_Text__c
                       FROM Self_Assessment_Answers__r
                      ORDER BY Sort_Order__c ASC
                      LIMIT 10000)

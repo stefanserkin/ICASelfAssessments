@@ -6,6 +6,8 @@ export default class RatingScaleField extends LightningElement {
     @api step = 1;
     @api label;
     @api displayType;
+    @api required = false;
+    @api helpText;
 
     get values() {
         const step = this.step || 1;
@@ -34,6 +36,7 @@ export default class RatingScaleField extends LightningElement {
 
     handleChange(event) {
         console.log('Selected rating:', event.target.value);
+        console.log('::: help text is --> ' + this.helpText);
         const selectedValue = event.target.value;
         const valueChangeEvent = new CustomEvent('valuechange', {
             detail: { value: selectedValue }
