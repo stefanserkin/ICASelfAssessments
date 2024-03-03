@@ -229,8 +229,8 @@
         <object>Self_Assessment_Assignment__c</object>
         <schedule>
             <frequency>Once</frequency>
-            <startDate>2024-02-28</startDate>
-            <startTime>18:02:00.000Z</startTime>
+            <startDate>2024-02-29</startDate>
+            <startTime>15:28:00.000Z</startTime>
         </schedule>
         <triggerType>Scheduled</triggerType>
     </start>

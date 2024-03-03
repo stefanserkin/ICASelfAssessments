@@ -72,7 +72,7 @@
             <assignToReference>Loop_through_Answers.Answer_Text_Area__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Input_TextArea</elementReference>
+                <elementReference>strFmlTextAreaInput</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -253,6 +253,11 @@
     </decisions>
     <description>Screen flow for community pages. Accepts the record id of a Self-Assessment record as a url parameter and allows the user to complete the self-assessment.</description>
     <environments>Default</environments>
+    <formulas>
+        <name>strFmlTextAreaInput</name>
+        <dataType>String</dataType>
+        <expression>IF( {!Loop_through_Answers.Required__c}, {!Input_TextArea_Required}, {!Input_TextArea} )</expression>
+    </formulas>
     <interviewLabel>SelfAssess SFCP SelfAssessment {!$Flow.CurrentDateTime}</interviewLabel>
     <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
     <label>SelfAssess SFCP SelfAssessment</label>
@@ -443,6 +448,30 @@
             </visibilityRule>
         </fields>
         <fields>
+            <name>Input_TextArea_Required</name>
+            <fieldText>Your Response</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Loop_through_Answers.Question_Type__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>Text Area</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Loop_through_Answers.Required__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
             <name>Input_TextArea</name>
             <fieldText>Your Response</fieldText>
             <fieldType>LargeTextArea</fieldType>
@@ -455,6 +484,13 @@
                     <operator>EqualTo</operator>
                     <rightValue>
                         <stringValue>Text Area</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Loop_through_Answers.Required__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
                     </rightValue>
                 </conditions>
             </visibilityRule>
