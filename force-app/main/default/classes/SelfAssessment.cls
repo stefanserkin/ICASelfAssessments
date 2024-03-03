@@ -1,3 +1,9 @@
+/*********************************************
+ * Data wrapper to represent a self-assessment
+ *  Includes parent details from the self-assessment template
+ *  and any child self-assessment answers
+ * @date 2024
+ *********************************************/
 public with sharing class SelfAssessment {
 
     @AuraEnabled

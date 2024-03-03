@@ -20,13 +20,12 @@ public with sharing class SelfAssessmentController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-    
 
-    /************************************************************************
+    /***************************************************
      * Save survey response and child survey answers
      * @param sObject[] records - Collection of answer objects to save
      * @return Id - Survey response id
-     ************************************************************************/
+     ***************************************************/
 
     @AuraEnabled(cacheable=false)
     public static String submitSelfAssessment(
@@ -38,8 +37,6 @@ public with sharing class SelfAssessmentController {
                 jsonAnswerString, 
                 List<SelfAssessment.Answer>.class
             );
-            System.debug('::::: submitting...');
-            System.debug(':::::: lstAnswers --> ' + lstAnswers);
             SelfAssessmentService serv = new SelfAssessmentService(selfAssessmentId);
             serv.saveAnswers(lstAnswers);
             return 'success';
@@ -47,43 +44,5 @@ public with sharing class SelfAssessmentController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-
-    /*
-    @AuraEnabled(cacheable=false)
-    public static Id submitSurvey(
-        String recordId, 
-        String contactId, 
-        List<sObject> answers
-     ) {
-        try {
-            Survey_Response__c sr = new Survey_Response__c();
-            sr.Survey__c = recordId;
-            sr.Contact__c = contactId;
-            Database.insert(
-                sr, 
-                false, 
-                AccessLevel.USER_MODE
-            );
-
-            // Cast generic sObject to list of application answers
-            List<Survey_Answer__c> lstAnswers = (List<Survey_Answer__c>) answers;
-            for (Survey_Answer__c ans : lstAnswers) {
-                ans.Survey_Response__c = sr.Id;
-                // Convert lightning data type back to valid picklist value
-                ans.Data_Type__c = DataTypesUtil.getDataTypeFromLightningInputType(ans.Data_Type__c);
-            }
-
-            // Update application answers
-            Database.insert(
-                lstAnswers,
-                false,
-                AccessLevel.USER_MODE
-            );
-            return sr.Id;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
-    */
 
 }
