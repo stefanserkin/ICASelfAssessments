@@ -7,46 +7,71 @@
         </template>
 
         <template lwc:if={assessment}>
-            <!-- WELCOME MESSAGE -->
-            <div class="slds-var-m-around_large">
-                <template lwc:if={assessment.introMessage}>
-                    <lightning-formatted-rich-text 
-                        value={assessment.introMessage}
-                    ></lightning-formatted-rich-text>
-                </template>
-                <template lwc:else>
-                    Please complete the self-assessment.
-                </template>
-            </div>
-
-            <!-- ANSWERS -->
-            <template for:each={answers} for:item="ans">
-                <p key={ans.id} class="slds-var-m-around_large">
-
-                    <!-- TEXT AREA QUESTIONS -->
-                    <template lwc:if={ans.isTextArea}>
-                        <lightning-textarea 
-                            name="textAreaInput" 
-                            label={ans.question}
-                            data-id={ans.id}
-                            onchange={handleChange}
-                        ></lightning-textarea>
+            <!-- THANK YOU MESSAGE -->
+            <template lwc:if={isSubmitted}>
+                <div class="slds-var-m-around_medium">
+                    <template lwc:if={assessment.thankYouMessage}>
+                        <lightning-formatted-rich-text 
+                            value={assessment.thankYouMessage}
+                        ></lightning-formatted-rich-text>
                     </template>
+                    <template lwc:else>
+                        Thank you for your submission.
+                    </template>
+                </div>
+            </template>
 
-                    <!-- RATING SCALE -->
-                    <c-rating-scale-field
-                        lwc:elseif={ans.isRatingScale} 
-                        label={ans.question} 
-                        min-value={ans.minValue} 
-                        max-value={ans.maxValue} 
-                        step={ans.step} 
-                        display-type={ans.displayType} 
-                        help-text={ans.helpText} 
-                        data-id={ans.id}
-                        onvaluechange={handleChange}
-                    ></c-rating-scale-field>
+            <template lwc:else>
+                <!-- WELCOME MESSAGE -->
+                <div class="slds-var-m-around_medium">
+                    <template lwc:if={assessment.introMessage}>
+                        <lightning-formatted-rich-text 
+                            value={assessment.introMessage}
+                        ></lightning-formatted-rich-text>
+                    </template>
+                    <template lwc:else>
+                        Please complete the self-assessment.
+                    </template>
+                </div>
 
-                </p>
+                <!-- ANSWERS -->
+                <template for:each={answers} for:item="ans">
+                    <p key={ans.id} class="slds-var-m-around_medium">
+
+                        <!-- TEXT AREA QUESTIONS -->
+                        <template lwc:if={ans.isTextArea}>
+                            <lightning-textarea 
+                                name="textAreaInput" 
+                                label={ans.question}
+                                data-id={ans.id}
+                                onchange={handleChange}
+                            ></lightning-textarea>
+                        </template>
+
+                        <!-- RATING SCALE -->
+                        <c-rating-scale-field
+                            lwc:elseif={ans.isRatingScale} 
+                            label={ans.question} 
+                            min-value={ans.minValue} 
+                            max-value={ans.maxValue} 
+                            step={ans.step} 
+                            display-type={ans.displayType} 
+                            help-text={ans.helpText} 
+                            data-id={ans.id}
+                            onvaluechange={handleChange}
+                        ></c-rating-scale-field>
+
+                    </p>
+                </template>
+
+                <!-- SUBMIT BUTTON -->
+                <lightning-button
+                    variant="brand"
+                    title="Submit"
+                    label="Submit"
+                    onclick={handleSubmit}
+                    class="slds-var-m-around_medium"
+                ></lightning-button>
             </template>
         </template>
 

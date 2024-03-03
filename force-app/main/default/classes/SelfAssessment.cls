@@ -11,6 +11,9 @@ public with sharing class SelfAssessment {
     public String templateName {get;set;}
 
     @AuraEnabled
+    public String status {get;set;}
+
+    @AuraEnabled
     public String introMessage {get;set;}
 
     @AuraEnabled

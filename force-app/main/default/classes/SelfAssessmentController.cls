@@ -28,6 +28,26 @@ public with sharing class SelfAssessmentController {
      * @return Id - Survey response id
      ************************************************************************/
 
+    @AuraEnabled(cacheable=false)
+    public static String submitSelfAssessment(
+        String selfAssessmentId, 
+        String jsonAnswerString
+    ) {
+        try {
+            List<SelfAssessment.Answer> lstAnswers = (List<SelfAssessment.Answer>) JSON.deserialize(
+                jsonAnswerString, 
+                List<SelfAssessment.Answer>.class
+            );
+            System.debug('::::: submitting...');
+            System.debug(':::::: lstAnswers --> ' + lstAnswers);
+            SelfAssessmentService serv = new SelfAssessmentService(selfAssessmentId);
+            serv.saveAnswers(lstAnswers);
+            return 'success';
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
     /*
     @AuraEnabled(cacheable=false)
     public static Id submitSurvey(

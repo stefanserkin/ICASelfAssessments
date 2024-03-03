@@ -4,6 +4,10 @@
  *********************************************/
 public with sharing class SelfAssessmentService {
 
+    private static final String QUESTION_TYPE_RATING_SCALE = 'Rating Scale';
+    private static final String QUESTION_TYPE_TEXT_AREA = 'Text Area';
+    private static final String STATUS_COMPLETED = 'Completed';
+
     public Id selfAssessmentId {get; private set;}
     public SelfAssessment selfAssessment {get; private set;}
     
@@ -28,6 +32,35 @@ public with sharing class SelfAssessmentService {
     }
 
     /**
+     * Save a collection of answers for the instance's assessment
+     * @param SelfAssessment.Answer[] Collection of answers to save
+     */
+    public void saveAnswers(
+        List<SelfAssessment.Answer> answers
+    ) {
+        // Update answer records
+        List<Self_Assessment_Answer__c> lstAnswers = new List<Self_Assessment_Answer__c>();
+        for (SelfAssessment.Answer obj : answers) {
+            Self_Assessment_Answer__c answer = new Self_Assessment_Answer__c();
+            answer.Id = obj.id;
+            if (obj.questionType == QUESTION_TYPE_RATING_SCALE) {
+                answer.Answer_Number__c = obj.answerNumber;
+            } else if (obj.questionType == QUESTION_TYPE_TEXT_AREA) {
+                answer.Answer_Text_Area__c = obj.answerText;
+            }
+            lstAnswers.add(answer);
+        }
+        Database.update(lstAnswers, AccessLevel.SYSTEM_MODE);
+
+        // Update assessment status and datetime submitted
+        Self_Assessment__c sa = new Self_Assessment__c();
+        sa.Id = selfAssessmentId;
+        sa.Status__c = STATUS_COMPLETED;
+        sa.Date_Time_Completed__c = Datetime.now();
+        Database.update(sa, AccessLevel.SYSTEM_MODE);
+    }
+
+    /**
      * Creates a data wrapper for a self-assessment with child answers
      * @param Self_Assessment__c Self-assessment with answer records
      * @return SelfAssessment
@@ -36,6 +69,7 @@ public with sharing class SelfAssessmentService {
         Self_Assessment__c selfAssessment
     ) {
         SelfAssessment sa = new SelfAssessment(selfAssessment.Id);
+        sa.status = selfAssessment.Status__c;
         sa.templateName = selfAssessment.Self_Assessment_Template__r.Name;
         sa.introMessage = selfAssessment.Self_Assessment_Template__r.Intro_Message__c;
         sa.thankYouMessage = selfAssessment.Self_Assessment_Template__r.Thank_You_Message__c;
@@ -73,6 +107,7 @@ public with sharing class SelfAssessmentService {
     private Self_Assessment__c queryForAssessmentWithAnswers() {
         return [
             SELECT Id, 
+                   Status__c, 
                    Self_Assessment_Template__r.Name, 
                    Self_Assessment_Template__r.Intro_Message__c, 
                    Self_Assessment_Template__r.Thank_You_Message__c, 
