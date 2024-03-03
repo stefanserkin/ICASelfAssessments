@@ -23,6 +23,7 @@ public with sharing class SelfAssessment {
      * Answer inner class
      *********************************************/
     public class Answer {
+
         @AuraEnabled
         public Id id {get;set;}
 
@@ -61,6 +62,10 @@ public with sharing class SelfAssessment {
 
         @AuraEnabled
         public Decimal answerNumber {get;set;}
+
+        @AuraEnabled
+        public String displayType {get;set;}
+        
     }
 
 }

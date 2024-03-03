@@ -1,0 +1,9 @@
+.radio-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.lightning-input .radio {
+    margin-right: 10px; /* Adjust spacing as needed */
+}

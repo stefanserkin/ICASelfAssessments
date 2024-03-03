@@ -16,7 +16,8 @@ public with sharing class SelfAssessmentService {
     }
 
     /**
-     * Returns a SelfAssessment object with child answers
+     * Get a SelfAssessment object with child answers for the instance's selfAssessmentId
+     * @return SelfAssessment
      */
     public SelfAssessment getAssessment() {
         if (selfAssessment == null) {
@@ -26,6 +27,11 @@ public with sharing class SelfAssessmentService {
         return selfAssessment;
     }
 
+    /**
+     * Creates a data wrapper for a self-assessment with child answers
+     * @param Self_Assessment__c Self-assessment with answer records
+     * @return SelfAssessment
+     */
     private SelfAssessment wrapSelfAssessment(
         Self_Assessment__c selfAssessment
     ) {
@@ -51,6 +57,7 @@ public with sharing class SelfAssessmentService {
             ans.step = saa.Step__c;
             ans.answerText = saa.Answer_Text_Area__c;
             ans.answerNumber = saa.Answer_Number__c;
+            ans.displayType = saa.Self_Assessment_Question__r.Display_Type__c;
             answers.add(ans);
         }
 
@@ -59,7 +66,8 @@ public with sharing class SelfAssessmentService {
     }
 
     /**
-     * Combined query with messaging from parent template and answers from child records
+     * Combined query on self-assessment gets messaging from parent template 
+     *  and answers from child records
      * @return Self_Assessment__c
      */
     private Self_Assessment__c queryForAssessmentWithAnswers() {
@@ -80,7 +88,8 @@ public with sharing class SelfAssessmentService {
                            Maximum_Value__c, 
                            Step__c, 
                            Answer_Text_Area__c, 
-                           Answer_Number__c
+                           Answer_Number__c, 
+                           Self_Assessment_Question__r.Display_Type__c
                       FROM Self_Assessment_Answers__r
                      ORDER BY Sort_Order__c ASC
                      LIMIT 10000)

@@ -2,18 +2,47 @@
     <lightning-card title={cardTitle} icon-name={cardIconName}>
 
         <!-- LIGHTNING SPINNER ON LOAD -->
-        <template if:true={isLoading}>
+        <template lwc:if={isLoading}>
             <lightning-spinner variant="base" title="Loading..." alternative-text="Loading..." size="medium"></lightning-spinner>
         </template>
 
-        <!-- WELCOME MESSAGE -->
+        <template lwc:if={assessment}>
+            <!-- WELCOME MESSAGE -->
+            <div class="slds-var-m-around_medium">
+                <template lwc:if={assessment.introMessage}>
+                    <lightning-formatted-rich-text 
+                        value={assessment.introMessage}
+                    ></lightning-formatted-rich-text>
+                </template>
+                <template lwc:else>
+                    Please complete the self-assessment.
+                </template>
+            </div>
 
-        <!-- ANSWERS -->
-        <template for:each={answers} for:item="ans">
-            <p key={ans.id} class="slds-var-m-around_medium">
-                Question: {ans.question}<br />
-                Question Type: {ans.questionType}
-            </p>
+            <!-- ANSWERS -->
+            <template for:each={answers} for:item="ans">
+                <p key={ans.id} class="slds-var-m-around_medium">
+
+                    <!-- TEXT AREA QUESTIONS -->
+                    <template lwc:if={ans.isTextArea}>
+                        <lightning-textarea 
+                            name="textAreaInput" 
+                            label="Enter some text" 
+                        ></lightning-textarea>
+                    </template>
+
+                    <!-- RATING SCALE -->
+                    <c-rating-scale-field
+                        label={ans.question}
+                        min-value={ans.minValue}
+                        max-value={ans.maxValue}
+                        step={ans.step}
+                        display-type={ans.displayType}
+                        onvaluechange={handleRatingScaleChange}
+                    ></c-rating-scale-field>
+
+                </p>
+            </template>
         </template>
 
     </lightning-card>

@@ -1,0 +1,44 @@
+<template>
+    
+    <div class="slds-var-m-vertical_medium">
+        <!-- Radio Buttons -->
+        <template if:true={isRadio}>
+            <h3 if:true={label} class="slds-var-p-bottom_x-small">{label}</h3>
+            <div class="radio-group">
+                <template for:each={values} for:item="val">
+                    <lightning-input 
+                        type="radio" 
+                        key={val} 
+                        label={val} 
+                        name="ratingScale" 
+                        value={val} 
+                        onchange={handleChange}
+                    ></lightning-input>
+                </template>
+            </div>
+        </template>
+
+        <!-- Picklist -->
+        <template if:true={isPicklist}>
+            <lightning-combobox 
+                name="ratingScale" 
+                label={label} 
+                placeholder="Select"
+                options={picklistOptions} 
+                onchange={handleChange}
+            ></lightning-combobox>
+        </template>
+
+        <!-- Slider -->
+        <template if:true={isSlider}>
+            <lightning-slider 
+                label={label} 
+                min={minValue} 
+                max={maxValue} 
+                step={step} 
+                value={minValue} 
+                onchange={handleChange}
+            ></lightning-slider>
+        </template>
+    </div>
+</template>

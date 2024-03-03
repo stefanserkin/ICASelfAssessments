@@ -19,7 +19,14 @@ export default class SelfAssessmentForm extends LightningElement {
         this.wiredAssessment = result;
         if (result.data) {
             this.assessment = JSON.parse(JSON.stringify(result.data));
+            console.log('assessment --> ',this.assessment);
             this.answers = this.assessment.answers;
+            this.answers.forEach(ans => {
+                ans.isTextArea = ans.questionType == 'Text Area';
+                if (ans.questionType == 'Rating Scale') {
+                    ans.options = this.getRatingScaleValues(ans);
+                }
+            });
             console.log(':::::::: answers --> ');
             console.table(this.answers);
             this.error = undefined;
@@ -30,6 +37,19 @@ export default class SelfAssessmentForm extends LightningElement {
             console.error(this.error);
             this.isLoading = false;
         }
+    }
+
+    getRatingScaleValues(answer) {
+        const values = [];
+        for (let value = answer.minValue; value <= answer.maxValue; value += answer.step) {
+            values.push(value);
+        }
+        return values;
+    }
+
+    handleRatingScaleChange(event) {
+        const selectedRating = event.detail.value;
+        console.log('Selected rating:', selectedRating);
     }
 
 }
