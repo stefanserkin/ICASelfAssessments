@@ -143,6 +143,34 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Help_Text__c</fieldItem>
+                <identifier>RecordHelp_Text_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-9353160f-a200-4ebf-a8d6-70818eb8c53f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-9353160f-a200-4ebf-a8d6-70818eb8c53f</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-48c2e77c-ab04-46f4-9221-d2525da393b4</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Minimum_Value__c</fieldItem>
                 <identifier>RecordMinimum_Value_cField</identifier>
             </fieldInstance>
@@ -169,6 +197,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Step__c</fieldItem>
                 <identifier>RecordStep_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Display_Type__c</fieldItem>
+                <identifier>RecordDisplay_Type_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-78ea9d25-a870-4f76-aea9-035439da2db3</name>
@@ -295,6 +333,24 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-48c2e77c-ab04-46f4-9221-d2525da393b4</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Help Text</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

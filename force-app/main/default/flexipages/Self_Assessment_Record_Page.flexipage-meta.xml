@@ -70,6 +70,20 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>cardIconName</name>
+                    <value>custom:custom18</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>cardTitle</name>
+                    <value>Assess yoself</value>
+                </componentInstanceProperties>
+                <componentName>selfAssessmentForm</componentName>
+                <identifier>c_selfAssessmentForm</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Self_Assessment__c.Id</value>
                 </componentInstanceProperties>
