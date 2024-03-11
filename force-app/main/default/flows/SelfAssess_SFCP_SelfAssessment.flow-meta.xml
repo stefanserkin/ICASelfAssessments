@@ -595,14 +595,6 @@
         </value>
     </variables>
     <variables>
-        <name>currentItemFromSourceCollection</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Integer__mdt</objectType>
-    </variables>
-    <variables>
         <name>said</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
