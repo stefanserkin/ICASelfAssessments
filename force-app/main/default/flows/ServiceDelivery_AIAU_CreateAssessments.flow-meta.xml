@@ -10,7 +10,7 @@
             <assignToReference>selfAssessment.Contact__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.pmdm__Contact__c</elementReference>
+                <elementReference>strFmlContactId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -46,6 +46,13 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>Not Started</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selfAssessment.Contact_Role__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_through_Assignments.Assign_To_Role__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -140,6 +147,16 @@
     </decisions>
     <description>Record-triggered, after insert and after update. When a service delivery&apos;s Attendance Status is set to &apos;Present&apos;, check for related self-assessment assignments with a Type of &apos;On Delivery&apos; and call the CreateAssessments flow utility.</description>
     <environments>Default</environments>
+    <formulas>
+        <name>strFmlContactId</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+  TEXT( {!Loop_through_Assignments.Assign_To_Role__c} ), 
+  &quot;Service Participant&quot;, {!$Record.pmdm__Service_Provider__c}, 
+  &quot;Service Participant&quot;, {!$Record.pmdm__Contact__c},
+  {!$Record.pmdm__Contact__c}
+)</expression>
+    </formulas>
     <interviewLabel>ServiceDelivery AIAU CreateAssessment {!$Flow.CurrentDateTime}</interviewLabel>
     <label>ServiceDelivery AIAU CreateAssessments</label>
     <loops>

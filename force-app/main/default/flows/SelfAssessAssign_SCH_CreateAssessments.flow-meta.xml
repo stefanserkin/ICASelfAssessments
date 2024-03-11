@@ -17,7 +17,7 @@
             <assignToReference>selfAssessment.Contact__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Loop_through_Service_Participants.pmdm__Contact__c</elementReference>
+                <elementReference>strFmlContactId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -46,6 +46,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selfAssessment.Contact_Role__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Assign_To_Role__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -140,6 +147,16 @@
     </decisions>
     <description>Scheduled flow. Handles creation of self-assessments for self-assessment assignments configured to send pre or post-session.</description>
     <environments>Default</environments>
+    <formulas>
+        <name>strFmlContactId</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+  TEXT( {!$Record.Assign_To_Role__c} ), 
+  &quot;Service Participant&quot;, {!Loop_through_Service_Participants.pmdm__Contact__c}, 
+  &quot;Service Provider&quot;, {!$Record.Service_Session__r.pmdm__PrimaryServiceProvider__c}, 
+  {!Loop_through_Service_Participants.pmdm__Contact__c}
+)</expression>
+    </formulas>
     <interviewLabel>SelfAssessAssign SCH CreateAssessments {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SelfAssessAssign SCH CreateAssessments</label>
     <loops>
