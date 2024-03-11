@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Service Participant</fullName>
+        <default>false</default>
+        <label>Service Participant</label>
+    </customValue>
+    <customValue>
+        <fullName>Service Provider</fullName>
+        <default>false</default>
+        <label>Service Provider</label>
+    </customValue>
+    <masterLabel>Self-Assessment Contact Roles</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>
