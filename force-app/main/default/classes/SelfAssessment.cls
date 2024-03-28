@@ -74,6 +74,9 @@ public with sharing class SelfAssessment {
 
         @AuraEnabled
         public String displayType {get;set;}
+
+        @AuraEnabled
+        public String picklistValues {get;set;}
         
     }
 

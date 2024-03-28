@@ -4,9 +4,11 @@
  *********************************************/
 public with sharing class SelfAssessmentService {
 
+    private static final String STATUS_COMPLETED = 'Completed';
     private static final String QUESTION_TYPE_RATING_SCALE = 'Rating Scale';
     private static final String QUESTION_TYPE_TEXT_AREA = 'Text Area';
-    private static final String STATUS_COMPLETED = 'Completed';
+    private static final String QUESTION_TYPE_PICKLIST = 'Picklist';
+    private static final String QUESTION_TYPE_MULTI_SELECT_PICKLIST = 'Multi-Select Picklist';
 
     public Id selfAssessmentId {get; private set;}
     public SelfAssessment selfAssessment {get; private set;}
@@ -45,7 +47,11 @@ public with sharing class SelfAssessmentService {
             answer.Id = obj.id;
             if (obj.questionType == QUESTION_TYPE_RATING_SCALE) {
                 answer.Answer_Number__c = obj.answerNumber;
-            } else if (obj.questionType == QUESTION_TYPE_TEXT_AREA) {
+            } else if (
+                obj.questionType == QUESTION_TYPE_TEXT_AREA || 
+                obj.questionType == QUESTION_TYPE_PICKLIST || 
+                obj.questionType == QUESTION_TYPE_MULTI_SELECT_PICKLIST 
+            ) {
                 answer.Answer_Text_Area__c = obj.answerText;
             }
             lstAnswers.add(answer);
@@ -92,6 +98,7 @@ public with sharing class SelfAssessmentService {
             ans.answerNumber = saa.Answer_Number__c;
             ans.displayType = saa.Self_Assessment_Question__r.Display_Type__c;
             ans.helpText = saa.Self_Assessment_Question__r.Help_Text__c;
+            ans.picklistValues = saa.Self_Assessment_Question__r.Picklist_Values__c;
             answers.add(ans);
         }
 
@@ -124,7 +131,8 @@ public with sharing class SelfAssessmentService {
                            Answer_Text_Area__c, 
                            Answer_Number__c, 
                            Self_Assessment_Question__r.Display_Type__c, 
-                           Self_Assessment_Question__r.Help_Text__c
+                           Self_Assessment_Question__r.Help_Text__c, 
+                           Self_Assessment_Question__r.Picklist_Values__c
                       FROM Self_Assessment_Answers__r
                      ORDER BY Sort_Order__c ASC
                      LIMIT 10000)

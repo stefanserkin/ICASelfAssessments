@@ -36,12 +36,14 @@
 
                 <!-- ANSWERS -->
                 <template for:each={answers} for:item="ans">
-                    <p key={ans.id} class="slds-var-m-around_medium">
+                    <div key={ans.id} class="slds-var-m-around_medium">
 
-                        <!-- TEXT AREA QUESTIONS -->
+                        <!-- TEXT AREA -->
                         <template lwc:if={ans.isTextArea}>
                             <lightning-textarea 
                                 name="textAreaInput" 
+                                value={ans.answerText}
+                                field-level-help={ans.helpText}
                                 label={ans.question}
                                 data-id={ans.id}
                                 onchange={handleChange}
@@ -49,8 +51,7 @@
                         </template>
 
                         <!-- RATING SCALE -->
-                        <c-rating-scale-field
-                            lwc:elseif={ans.isRatingScale} 
+                        <c-rating-scale-field lwc:elseif={ans.isRatingScale} 
                             label={ans.question} 
                             min-value={ans.minValue} 
                             max-value={ans.maxValue} 
@@ -61,7 +62,32 @@
                             onvaluechange={handleChange}
                         ></c-rating-scale-field>
 
-                    </p>
+                        <!-- PICKLIST -->
+                        <lightning-combobox lwc:elseif={ans.isPicklist}
+                            name="picklistInput" 
+                            label={ans.question} 
+                            value={ans.answerText} 
+                            data-id={ans.id} 
+                            placeholder="--Select--" 
+                            options={ans.options} 
+                            field-level-help={ans.helpText} 
+                            onchange={handleChange} 
+                        ></lightning-combobox>
+
+                        <!-- MULTI-SELECT PICKLIST -->
+                        <lightning-dual-listbox lwc:elseif={ans.isMultiSelectPicklist} 
+                            name="mspInput" 
+                            label={ans.question} 
+                            data-id={ans.id} 
+                            value={ans.defaultValues} 
+                            size={ans.numberOfValues} 
+                            source-label="Available" 
+                            selected-label="Selected" 
+                            field-level-help={ans.helpText} 
+                            options={ans.options} 
+                            onchange={handleChange} 
+                        ></lightning-dual-listbox>
+                    </div>
                 </template>
 
                 <!-- SUBMIT BUTTON -->
