@@ -233,8 +233,8 @@
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Question_Type__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Text Area</rightValue>
+                        <operator>NE</operator>
+                        <rightValue>Rating Scale</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
