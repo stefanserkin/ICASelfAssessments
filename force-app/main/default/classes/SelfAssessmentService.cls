@@ -4,14 +4,15 @@
  *********************************************/
 public with sharing class SelfAssessmentService {
 
-    private static final String STATUS_COMPLETED = 'Completed';
-    private static final String QUESTION_TYPE_RATING_SCALE = 'Rating Scale';
-    private static final String QUESTION_TYPE_TEXT_AREA = 'Text Area';
-    private static final String QUESTION_TYPE_PICKLIST = 'Picklist';
-    private static final String QUESTION_TYPE_MULTI_SELECT_PICKLIST = 'Multi-Select Picklist';
+    @TestVisible private static final String STATUS_COMPLETED = 'Completed';
+    @TestVisible private static final String QUESTION_TYPE_RATING_SCALE = 'Rating Scale';
+    @TestVisible private static final String QUESTION_TYPE_TEXT_AREA = 'Text Area';
+    @TestVisible private static final String QUESTION_TYPE_PICKLIST = 'Picklist';
+    @TestVisible private static final String QUESTION_TYPE_MULTI_SELECT_PICKLIST = 'Multi-Select Picklist';
 
     public Id selfAssessmentId {get; private set;}
     public SelfAssessment selfAssessment {get; private set;}
+    public static Boolean recordsHaveBeenUpdated = false;
     
     /**
      * Constructor accepts a self assessment record id and loads related answers
@@ -26,7 +27,7 @@ public with sharing class SelfAssessmentService {
      * @return SelfAssessment
      */
     public SelfAssessment getAssessment() {
-        if (selfAssessment == null) {
+        if (selfAssessment == null || recordsHaveBeenUpdated) {
             Self_Assessment__c obj = queryForAssessmentWithAnswers();
             selfAssessment = wrapSelfAssessment(obj);
         }
@@ -64,6 +65,8 @@ public with sharing class SelfAssessmentService {
         sa.Status__c = STATUS_COMPLETED;
         sa.Date_Time_Completed__c = Datetime.now();
         Database.update(sa, AccessLevel.SYSTEM_MODE);
+        // Set the isRecordsUpdated flag to allow records to be re-queried if an assessment is re-requested
+        recordsHaveBeenUpdated = true;
     }
 
     /**

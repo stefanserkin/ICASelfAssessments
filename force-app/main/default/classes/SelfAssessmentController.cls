@@ -11,7 +11,7 @@ public with sharing class SelfAssessmentController {
      ***************************************************/
     @AuraEnabled(cacheable=true)
     public static SelfAssessment getSelfAssessment(
-        Id recordId
+        String recordId
     ) {
         try {
             SelfAssessmentService serv = new SelfAssessmentService(recordId);
