@@ -25,7 +25,6 @@ export default class SelfAssessmentForm extends LightningElement {
             this.isSubmitted = this.assessment.status == 'Completed';
             this.answers = this.assessment.answers;
             this.answers.forEach(ans => {
-                console.log('::::: msp --> ', ans.questionType);
                 ans.isTextArea = ans.questionType == 'Text Area';
                 ans.isRatingScale = ans.questionType == 'Rating Scale';
                 ans.isPicklist = ans.questionType == 'Picklist';
@@ -36,7 +35,6 @@ export default class SelfAssessmentForm extends LightningElement {
                 if (ans.isPicklist || ans.isMultiSelectPicklist) {
                     ans.options = this.getPicklistValues(ans);
                     ans.numberOfValues = ans.options.length;
-                    console.log('::: picklist values --> ', ans.options);
                     if (ans.isMultiSelectPicklist) {
                         ans.defaultValues = ans.answerText ? ans.answerText.split(';') : [];
                     }
@@ -81,17 +79,12 @@ export default class SelfAssessmentForm extends LightningElement {
             } else if (this.answers[answerIndex].questionType === 'Text Area' || this.answers[answerIndex].questionType === 'Picklist') {
                 this.answers[answerIndex].answerText = selectedValue;
             } else if (this.answers[answerIndex].questionType === 'Multi-Select Picklist') {
-                console.log(':::: is msp');
-                console.log(':::: selectedValue --> ',selectedValue);
                 this.answers[answerIndex].answerText = selectedValue ? selectedValue.join(';') : undefined;
             }
         }
     }
 
     handleSubmit() {
-        console.log(':::: handle submit');
-        console.log(':::: answers --> ' );
-        console.table(this.answers);
         this.isLoading = true;
 
         // Is this helpful? Does it validate fields in child component?
@@ -108,7 +101,6 @@ export default class SelfAssessmentForm extends LightningElement {
                 jsonAnswerString: request
             })
                 .then((result) => {
-                    console.log('::: result --> ', result);
                     this.isSubmitted = true;
                     this.isLoading = false;
                     this.dispatchEvent(new RefreshEvent());
