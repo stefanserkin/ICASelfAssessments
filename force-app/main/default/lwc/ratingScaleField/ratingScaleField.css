@@ -5,9 +5,17 @@
 }
 
 .lightning-input .radio {
-    margin-right: 10px; /* Adjust spacing as needed */
+    margin-right: 10px;
 }
 
 .field-label {
     display: flex;
+}
+
+.required-asterisk {
+    color: #B90516;
+}
+
+.required-invalid {
+    color: #B90516;
 }

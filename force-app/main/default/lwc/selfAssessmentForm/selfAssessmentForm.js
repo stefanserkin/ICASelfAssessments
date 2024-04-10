@@ -26,6 +26,8 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
             this.isSubmitted = this.assessment.status == 'Completed';
             this.answers = this.assessment.answers;
             this.answers.forEach(ans => {
+                ans.isValid = true;
+                ans.cssClass = 'slds-var-m-around_medium';
                 ans.isTextArea = ans.questionType == 'Text Area';
                 ans.isRatingScale = ans.questionType == 'Rating Scale';
                 ans.isPicklist = ans.questionType == 'Picklist';
@@ -87,31 +89,57 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
 
     handleSubmit() {
         this.isLoading = true;
+        let allValid = true;
 
-        // Is this helpful? Does it validate fields in child component?
-        const allValid = [...this.template.querySelectorAll('lightning-input')]
-            .reduce((validSoFar, inputFields) => {
-                inputFields.reportValidity();
-                return validSoFar && inputFields.checkValidity();
-            }, true);
-        
-        if (allValid) {
-            const request = JSON.stringify(this.answers);
-            submitSelfAssessment({
-                selfAssessmentId: this.recordId, 
-                jsonAnswerString: request
-            })
-                .then((result) => {
-                    this.isSubmitted = true;
-                    this.isLoading = false;
-                    this.dispatchEvent(new RefreshEvent());
-                })
-                .catch((error) => {
-                    this.error = error;
-                    console.error(this.error);
-                    this.isLoading = false;
-                });
+        allValid = this.validateFormInput();
+
+        if (!allValid) {
+            this.error = 'Please correct errors before submitting.';
+            this.isLoading = false;
+            // Stop the form submission
+            return;
         }
+        
+        // Submit form
+        const request = JSON.stringify(this.answers);
+        submitSelfAssessment({
+            selfAssessmentId: this.recordId, 
+            jsonAnswerString: request
+        })
+            .then((result) => {
+                this.isSubmitted = true;
+                this.isLoading = false;
+                this.dispatchEvent(new RefreshEvent());
+            })
+            .catch((error) => {
+                this.error = error;
+                console.error(this.error);
+                this.isLoading = false;
+            });
+    }
+
+    validateFormInput() {
+        console.table(this.answers);
+
+        let isAllValid = true;
+
+        // Loop through all answers to validate
+        this.answers.forEach(answer => {
+            let element;
+            if (answer.isRatingScale) {
+                element = this.template.querySelector(`c-rating-scale-field[data-id="${answer.id}"]`);
+                if (!element.validate()) {
+                    isAllValid = false;
+                }
+            } else if (answer.isTextArea) {
+                let field = this.template.querySelector(`[data-id="${answer.id}"]`);
+                if (!field.reportValidity()) {
+                    isAllValid = false;
+                }
+            }
+        });
+
+        return isAllValid;
     }
 
 }

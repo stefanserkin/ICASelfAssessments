@@ -1,10 +1,13 @@
 <template>
-    <div class="field-container">
+    <div class={fieldContainerClass}>
 
         <!-- FIELD LABEL -->
         <div class="field-label">
             <!-- LABEL -->
-            <h3 lwc:if={label}>{label}</h3>
+            <h3 lwc:if={label}>
+                {label}
+                <template lwc:if={showCustomAsterisk}><span class="required-asterisk"> *</span></template>
+            </h3>
             <!-- HELP TEXT -->
             <template lwc:if={helpText}>
                 <lightning-helptext
@@ -18,14 +21,15 @@
         <!-- RADIO BUTTONS -->
         <template lwc:if={isRadio}>
             <div class="radio-group">
-                <template for:each={values} for:item="val">
+                <template for:each={selectableOptions} for:item="option">
                     <lightning-input 
                         type="radio" 
-                        key={val} 
-                        label={val} 
+                        key={option.value} 
+                        label={option.label} 
                         name="ratingScale" 
-                        value={val} 
+                        value={option.value} 
                         onchange={handleChange} 
+                        checked={option.checked} 
                     ></lightning-input>
                 </template>
             </div>
@@ -36,8 +40,10 @@
             <lightning-combobox 
                 name="ratingScale" 
                 placeholder="Select"
-                options={picklistOptions} 
+                options={selectableOptions} 
+                value={value} 
                 onchange={handleChange} 
+                required={required}
             ></lightning-combobox>
         </template>
 
@@ -48,7 +54,7 @@
                 min={minValue} 
                 max={maxValue} 
                 step={step} 
-                value={minValue} 
+                value={value} 
                 onchange={handleChange}
             ></lightning-slider>
         </template>

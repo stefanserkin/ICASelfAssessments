@@ -1,25 +1,38 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api } from 'lwc';
 
 export default class RatingScaleField extends LightningElement {
+    @api value;
     @api minValue = 1;
     @api maxValue = 5;
     @api step = 1;
     @api label;
     @api displayType;
-    @api required = false;
     @api helpText;
+    @api required = false;
+    @api showValidity = false;
 
-    get values() {
-        const step = this.step || 1;
-        let values = [];
-        for (let value = this.minValue; value <= this.maxValue; value += step) {
-            values.push(value);
+    @api validate() {
+        // Assuming 'value' holds the current selection; add it if it's not already there
+        const isValid = !this.required || this.value !== undefined;
+        // Update the component to visually indicate validity
+        const fieldContainer = this.template.querySelector('.field-container');
+        if (fieldContainer) {
+            fieldContainer.classList.toggle('required-invalid', !isValid);
         }
-        return values;
+        return isValid;
     }
 
-    get picklistOptions() {
-        return this.values.map(value => ({ label: value.toString(), value: value.toString() }));
+    get selectableOptions() {
+        const step = this.step || 1;
+        let values = [];
+        for (let val = this.minValue; val <= this.maxValue; val += this.step) {
+            values.push({
+                label: val.toString(),
+                value: val,
+                checked: this.value === val
+            });
+        }
+        return values;
     }
 
     get isRadio() {
@@ -35,12 +48,19 @@ export default class RatingScaleField extends LightningElement {
     }
 
     handleChange(event) {
-        console.log('Selected rating:', event.target.value);
-        console.log('::: help text is --> ' + this.helpText);
-        const selectedValue = event.target.value;
+        this.value = event.target.value;
         const valueChangeEvent = new CustomEvent('valuechange', {
-            detail: { value: selectedValue }
+            detail: { value: this.value }
         });
         this.dispatchEvent(valueChangeEvent);
     }
+
+    get fieldContainerClass() {
+        return `field-container ${this.required && this.showValidity && !this.validate() ? 'required-invalid' : ''}`;
+    }
+
+    get showCustomAsterisk() {
+        return this.required && this.displayType !== 'Picklist';
+    }
+
 }

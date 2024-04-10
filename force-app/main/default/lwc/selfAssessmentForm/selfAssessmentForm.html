@@ -37,7 +37,7 @@
                 <!-- ANSWERS -->
                 <template for:each={answers} for:item="ans">
                     <div key={ans.id} class="slds-var-m-around_medium">
-
+                        
                         <!-- TEXT AREA -->
                         <template lwc:if={ans.isTextArea}>
                             <lightning-textarea 
@@ -45,6 +45,7 @@
                                 value={ans.answerText}
                                 field-level-help={ans.helpText}
                                 label={ans.question}
+                                required={ans.required}
                                 data-id={ans.id}
                                 onchange={handleChange}
                             ></lightning-textarea>
@@ -53,11 +54,13 @@
                         <!-- RATING SCALE -->
                         <c-rating-scale-field lwc:elseif={ans.isRatingScale} 
                             label={ans.question} 
+                            value={ans.answerNumber}
                             min-value={ans.minValue} 
                             max-value={ans.maxValue} 
                             step={ans.step} 
                             display-type={ans.displayType} 
                             help-text={ans.helpText} 
+                            required={ans.required} 
                             data-id={ans.id}
                             onvaluechange={handleChange}
                         ></c-rating-scale-field>
@@ -70,6 +73,7 @@
                             data-id={ans.id} 
                             placeholder="--Select--" 
                             options={ans.options} 
+                            required={ans.required} 
                             field-level-help={ans.helpText} 
                             onchange={handleChange} 
                         ></lightning-combobox>
@@ -81,6 +85,7 @@
                             data-id={ans.id} 
                             value={ans.defaultValues} 
                             size={ans.numberOfValues} 
+                            required={ans.required} 
                             source-label="Available" 
                             selected-label="Selected" 
                             field-level-help={ans.helpText} 
