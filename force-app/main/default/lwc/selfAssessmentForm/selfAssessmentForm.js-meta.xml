@@ -15,12 +15,6 @@
                 <object>Self_Assessment__c</object>
             </objects>
             <property 
-                name="recordId" 
-                type="String" 
-                label="Record ID" 
-                description="The value should be {!recordId}."
-            ></property>
-            <property 
                 type="String" 
                 default="Self-Assessment Form" 
                 required="true" 
@@ -34,6 +28,14 @@
                 label="Card Icon Name" 
                 name="cardIconName" 
                 description="Use supported icons from the SLDS library"
+            ></property>
+        </targetConfig>
+        <targetConfig targets="lightningCommunity__Default">
+            <property 
+                name="recordId" 
+                type="String" 
+                label="Record ID" 
+                description="The value should be {!recordId}."
             ></property>
         </targetConfig>
     </targetConfigs>
