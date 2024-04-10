@@ -1,6 +1,5 @@
 h3 {
     font-size: 14px;
-    font-weight: lighter;
 }
 
 .radio-group {
@@ -15,7 +14,7 @@ h3 {
 
 .field-label {
     display: flex;
-    color: rgba(0, 0, 0, 0.6);
+    /* color: rgba(0, 0, 0, 0.6); */
 }
 
 .required-asterisk {

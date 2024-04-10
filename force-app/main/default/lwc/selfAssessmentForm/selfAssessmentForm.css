@@ -1,5 +1,6 @@
 :host {
     --lwc-formLabelFontSize: 14px;
+    --lwc-fontWeightBold: 400;
 }
 
 .required-invalid {
