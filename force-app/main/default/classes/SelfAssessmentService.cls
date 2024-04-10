@@ -2,7 +2,7 @@
  * Service class for self-assessments
  * @date 2024
  *********************************************/
-public with sharing class SelfAssessmentService {
+public without sharing class SelfAssessmentService {
 
     @TestVisible private static final String STATUS_COMPLETED = 'Completed';
     @TestVisible private static final String QUESTION_TYPE_RATING_SCALE = 'Rating Scale';

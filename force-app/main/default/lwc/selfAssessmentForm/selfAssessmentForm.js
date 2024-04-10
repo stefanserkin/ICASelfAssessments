@@ -1,9 +1,10 @@
 import { LightningElement, api, wire } from 'lwc';
+import { NavigationMixin } from "lightning/navigation";
 import { RefreshEvent } from 'lightning/refresh';
 import getSelfAssessment from '@salesforce/apex/SelfAssessmentController.getSelfAssessment';
 import submitSelfAssessment from '@salesforce/apex/SelfAssessmentController.submitSelfAssessment';
 
-export default class SelfAssessmentForm extends LightningElement {
+export default class SelfAssessmentForm extends NavigationMixin(LightningElement) {
     @api recordId;
     @api cardTitle;
     @api cardIconName;

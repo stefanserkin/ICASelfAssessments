@@ -35,7 +35,23 @@
                 name="recordId" 
                 type="String" 
                 label="Record ID" 
-                description="The value should be {!recordId}."
+                default="{!recordId}" 
+                description="For object pages, this value should be {!recordId}. For other pages, set to the name of a url parameter."
+            ></property>
+            <property 
+                type="String" 
+                default="Self-Assessment Form" 
+                required="true" 
+                label="Card Title" 
+                name="cardTitle" 
+            ></property>
+            <property 
+                type="String" 
+                default="custom:custom18" 
+                required="true" 
+                label="Card Icon Name" 
+                name="cardIconName" 
+                description="Use supported icons from the SLDS library"
             ></property>
         </targetConfig>
     </targetConfigs>
