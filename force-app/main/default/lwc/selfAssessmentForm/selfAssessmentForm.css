@@ -1,3 +1,7 @@
+:host {
+    --lwc-formLabelFontSize: 14px;
+}
+
 .required-invalid {
     color: #B90516;
 }

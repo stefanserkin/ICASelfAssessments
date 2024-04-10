@@ -7,104 +7,109 @@
         </template>
 
         <template lwc:if={assessment}>
-            <!-- THANK YOU MESSAGE -->
-            <template lwc:if={isSubmitted}>
-                <div class="slds-var-m-around_medium">
-                    <template lwc:if={assessment.thankYouMessage}>
-                        <lightning-formatted-rich-text 
-                            value={assessment.thankYouMessage}
-                        ></lightning-formatted-rich-text>
-                    </template>
-                    <template lwc:else>
-                        Thank you for your submission.
-                    </template>
-                </div>
-            </template>
+            <div class="slds-var-m-horizontal_medium">
 
-            <template lwc:else>
-                <!-- WELCOME MESSAGE -->
-                <div class="slds-var-m-around_medium">
-                    <template lwc:if={assessment.introMessage}>
-                        <lightning-formatted-rich-text 
-                            value={assessment.introMessage}
-                        ></lightning-formatted-rich-text>
-                    </template>
-                    <template lwc:else>
-                        Please complete the self-assessment.
-                    </template>
-                </div>
-
-                <!-- ANSWERS -->
-                <template for:each={answers} for:item="ans">
-                    <div key={ans.id} class="slds-var-m-around_medium">
-                        
-                        <!-- TEXT AREA -->
-                        <template lwc:if={ans.isTextArea}>
-                            <lightning-textarea 
-                                name="textAreaInput" 
-                                value={ans.answerText}
-                                field-level-help={ans.helpText}
-                                label={ans.question}
-                                required={ans.required}
-                                data-id={ans.id}
-                                onchange={handleChange}
-                            ></lightning-textarea>
+                <!-- THANK YOU MESSAGE -->
+                <template lwc:if={isSubmitted}>
+                    <div class="slds-var-m-around_medium">
+                        <template lwc:if={assessment.thankYouMessage}>
+                            <lightning-formatted-rich-text 
+                                value={assessment.thankYouMessage}
+                            ></lightning-formatted-rich-text>
                         </template>
-
-                        <!-- RATING SCALE -->
-                        <c-rating-scale-field lwc:elseif={ans.isRatingScale} 
-                            label={ans.question} 
-                            value={ans.answerNumber}
-                            min-value={ans.minValue} 
-                            max-value={ans.maxValue} 
-                            step={ans.step} 
-                            display-type={ans.displayType} 
-                            help-text={ans.helpText} 
-                            required={ans.required} 
-                            data-id={ans.id}
-                            onvaluechange={handleChange}
-                        ></c-rating-scale-field>
-
-                        <!-- PICKLIST -->
-                        <lightning-combobox lwc:elseif={ans.isPicklist}
-                            name="picklistInput" 
-                            label={ans.question} 
-                            value={ans.answerText} 
-                            data-id={ans.id} 
-                            placeholder="--Select--" 
-                            options={ans.options} 
-                            required={ans.required} 
-                            field-level-help={ans.helpText} 
-                            onchange={handleChange} 
-                        ></lightning-combobox>
-
-                        <!-- MULTI-SELECT PICKLIST -->
-                        <lightning-dual-listbox lwc:elseif={ans.isMultiSelectPicklist} 
-                            name="mspInput" 
-                            label={ans.question} 
-                            data-id={ans.id} 
-                            value={ans.defaultValues} 
-                            size={ans.numberOfValues} 
-                            required={ans.required} 
-                            source-label="Available" 
-                            selected-label="Selected" 
-                            field-level-help={ans.helpText} 
-                            options={ans.options} 
-                            onchange={handleChange} 
-                        ></lightning-dual-listbox>
+                        <template lwc:else>
+                            Thank you for your submission.
+                        </template>
                     </div>
                 </template>
 
-                <!-- SUBMIT BUTTON -->
-                <lightning-button
-                    variant="brand"
-                    title="Submit"
-                    label="Submit"
-                    onclick={handleSubmit}
-                    class="slds-var-m-around_medium"
-                ></lightning-button>
-            </template>
-        </template>
+                <template lwc:else>
+                    <!-- WELCOME MESSAGE -->
+                    <div class="slds-var-p-around_small">
+                        <template lwc:if={assessment.introMessage}>
+                            <lightning-formatted-rich-text 
+                                value={assessment.introMessage}
+                            ></lightning-formatted-rich-text>
+                        </template>
+                        <template lwc:else>
+                            Please complete the self-assessment.
+                        </template>
+                    </div>
 
+                    <!-- ANSWERS -->
+                    <template for:each={answers} for:item="ans">
+                        <div key={ans.id} class="slds-var-p-around_small">
+                            
+                            <!-- TEXT AREA -->
+                            <template lwc:if={ans.isTextArea}>
+                                <lightning-textarea 
+                                    name="textAreaInput" 
+                                    value={ans.answerText}
+                                    field-level-help={ans.helpText}
+                                    label={ans.question}
+                                    required={ans.required}
+                                    data-id={ans.id}
+                                    onchange={handleChange}
+                                ></lightning-textarea>
+                            </template>
+
+                            <!-- RATING SCALE -->
+                            <c-rating-scale-field lwc:elseif={ans.isRatingScale} 
+                                label={ans.question} 
+                                value={ans.answerNumber}
+                                min-value={ans.minValue} 
+                                max-value={ans.maxValue} 
+                                step={ans.step} 
+                                display-type={ans.displayType} 
+                                help-text={ans.helpText} 
+                                required={ans.required} 
+                                data-id={ans.id}
+                                onvaluechange={handleChange}
+                            ></c-rating-scale-field>
+
+                            <!-- PICKLIST -->
+                            <lightning-combobox lwc:elseif={ans.isPicklist}
+                                name="picklistInput" 
+                                label={ans.question} 
+                                value={ans.answerText} 
+                                data-id={ans.id} 
+                                placeholder="--Select--" 
+                                options={ans.options} 
+                                required={ans.required} 
+                                field-level-help={ans.helpText} 
+                                onchange={handleChange} 
+                            ></lightning-combobox>
+
+                            <!-- MULTI-SELECT PICKLIST -->
+                            <lightning-dual-listbox lwc:elseif={ans.isMultiSelectPicklist} 
+                                name="mspInput" 
+                                label={ans.question} 
+                                data-id={ans.id} 
+                                value={ans.defaultValues} 
+                                size={ans.numberOfValues} 
+                                required={ans.required} 
+                                source-label="Available" 
+                                selected-label="Selected" 
+                                field-level-help={ans.helpText} 
+                                options={ans.options} 
+                                onchange={handleChange} 
+                            ></lightning-dual-listbox>
+                        </div>
+                    </template>
+
+                    <!-- SUBMIT BUTTON -->
+                    <div class="slds-text-align_right slds-var-m-vertical_large">
+                        <lightning-button
+                            variant="brand"
+                            title="Submit"
+                            label="Submit"
+                            onclick={handleSubmit}
+                            class="slds-var-m-around_medium"
+                        ></lightning-button>
+                    </div>
+                    
+                </template>
+            </div>
+        </template>
     </lightning-card>
 </template>
