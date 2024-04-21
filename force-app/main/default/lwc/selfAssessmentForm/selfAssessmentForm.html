@@ -1,5 +1,11 @@
 <template>
-    <lightning-card title={cardTitle} icon-name={cardIconName}>
+    <lightning-card>
+
+        <!-- CARD TITLE AND ICON -->
+        <h1 lwc:if={showCardTitle} slot="title">
+            <lightning-icon icon-name={cardIconName} size="small" class="slds-var-m-right_small"></lightning-icon>
+            {cardTitle}
+        </h1>
 
         <!-- LIGHTNING SPINNER ON LOAD -->
         <template lwc:if={isLoading}>
@@ -25,15 +31,10 @@
 
                 <template lwc:else>
                     <!-- WELCOME MESSAGE -->
-                    <div class="slds-var-p-around_small">
-                        <template lwc:if={assessment.introMessage}>
-                            <lightning-formatted-rich-text 
-                                value={assessment.introMessage}
-                            ></lightning-formatted-rich-text>
-                        </template>
-                        <template lwc:else>
-                            Please complete the self-assessment.
-                        </template>
+                    <div lwc:if={showIntroMessage} class="slds-var-p-around_small">
+                        <lightning-formatted-rich-text 
+                            value={assessment.introMessage}
+                        ></lightning-formatted-rich-text>
                     </div>
 
                     <!-- ANSWERS -->

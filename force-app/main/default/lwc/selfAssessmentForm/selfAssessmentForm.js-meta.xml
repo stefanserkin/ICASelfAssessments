@@ -29,6 +29,18 @@
                 name="cardIconName" 
                 description="Use supported icons from the SLDS library"
             ></property>
+            <property 
+                type="Boolean" 
+                label="Hide Card Title" 
+                name="hideCardTitle" 
+                description="If checked, the card title will be hidden"
+            ></property>
+            <property 
+                type="Boolean" 
+                label="Hide Intro Message" 
+                name="hideIntroMessage" 
+                description="If checked, the Intro Message of the self-assessment template will be hidden"
+            ></property>
         </targetConfig>
         <targetConfig targets="lightningCommunity__Default">
             <property 
@@ -52,6 +64,18 @@
                 label="Card Icon Name" 
                 name="cardIconName" 
                 description="Use supported icons from the SLDS library"
+            ></property>
+            <property 
+                type="Boolean" 
+                label="Hide Card Title" 
+                name="hideCardTitle" 
+                description="If checked, the card title will be hidden"
+            ></property>
+            <property 
+                type="Boolean" 
+                label="Hide Intro Message" 
+                name="hideIntroMessage" 
+                description="If checked, the Intro Message of the self-assessment template will be hidden"
             ></property>
         </targetConfig>
     </targetConfigs>

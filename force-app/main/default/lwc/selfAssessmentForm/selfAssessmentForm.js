@@ -8,6 +8,8 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
     @api recordId;
     @api cardTitle;
     @api cardIconName;
+    @api hideCardTitle = false;
+    @api hideIntroMessage = false;
 
     isLoading = false;
     isSubmitted = false;
@@ -16,6 +18,14 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
     wiredAssessment = [];
     assessment;
     answers;
+
+    get showCardTitle() {
+        return !this.hideCardTitle;
+    }
+
+    get showIntroMessage() {
+        return !this.hideIntroMessage && this.assessment && this.assessment.introMessage;
+    }
 
     @wire(getSelfAssessment, {recordId: '$recordId'})
     wiredResult(result) {
