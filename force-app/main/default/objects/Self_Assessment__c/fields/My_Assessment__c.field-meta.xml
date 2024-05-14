@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Public_URL__c</fullName>
+    <fullName>My_Assessment__c</fullName>
     <externalId>false</externalId>
-    <formula>$CustomMetadata.Self_Assessment_Setting__mdt.Default.Base_URL__c &amp; &quot;?form=&quot; &amp; CASESAFEID(Id)</formula>
+    <formula>Owner:User.Id  =   $User.Id</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <label>Public URL</label>
-    <required>false</required>
+    <label>My Assessment</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Checkbox</type>
 </CustomField>

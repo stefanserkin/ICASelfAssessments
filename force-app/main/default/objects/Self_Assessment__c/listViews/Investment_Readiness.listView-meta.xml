@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Investment_Readiness</fullName>
+    <columns>NAME</columns>
+    <columns>Self_Assessment_Template__c</columns>
+    <columns>Contact__c</columns>
+    <columns>Status__c</columns>
+    <columns>Program_Engagement__c</columns>
+    <columns>Service_Schedule_Name__c</columns>
+    <columns>Service_Session__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Self_Assessment_Template__c</field>
+        <operation>equals</operation>
+        <value>Investment Readiness</value>
+    </filters>
+    <label>Investment Readiness</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>
