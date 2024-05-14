@@ -37,9 +37,11 @@ public without sharing class SelfAssessmentService {
     /**
      * Save a collection of answers for the instance's assessment
      * @param SelfAssessment.Answer[] Collection of answers to save
+     * @param Boolean Set to true on final submission
      */
     public void saveAnswers(
-        List<SelfAssessment.Answer> answers
+        List<SelfAssessment.Answer> answers,
+        Boolean isFinalSubmit
     ) {
         // Update answer records
         List<Self_Assessment_Answer__c> lstAnswers = new List<Self_Assessment_Answer__c>();
@@ -59,12 +61,15 @@ public without sharing class SelfAssessmentService {
         }
         Database.update(lstAnswers, AccessLevel.SYSTEM_MODE);
 
-        // Update assessment status and datetime submitted
-        Self_Assessment__c sa = new Self_Assessment__c();
-        sa.Id = selfAssessmentId;
-        sa.Status__c = STATUS_COMPLETED;
-        sa.Date_Time_Completed__c = Datetime.now();
-        Database.update(sa, AccessLevel.SYSTEM_MODE);
+        // If this is a final submission, update assessment status and datetime submitted
+        if (isFinalSubmit) {
+            Self_Assessment__c sa = new Self_Assessment__c();
+            sa.Id = selfAssessmentId;
+            sa.Status__c = STATUS_COMPLETED;
+            sa.Date_Time_Completed__c = Datetime.now();
+            Database.update(sa, AccessLevel.SYSTEM_MODE);
+        }
+       
         // Set the isRecordsUpdated flag to allow records to be re-queried if an assessment is re-requested
         recordsHaveBeenUpdated = true;
     }

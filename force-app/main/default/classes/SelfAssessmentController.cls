@@ -24,13 +24,14 @@ public with sharing class SelfAssessmentController {
     /***************************************************
      * Save survey response and child survey answers
      * @param sObject[] records - Collection of answer objects to save
-     * @return Id - Survey response id
+     * @return String - Survey response
      ***************************************************/
 
     @AuraEnabled(cacheable=false)
     public static String submitSelfAssessment(
         String selfAssessmentId, 
-        String jsonAnswerString
+        String jsonAnswerString,
+        Boolean isFinalSubmit
     ) {
         try {
             List<SelfAssessment.Answer> lstAnswers = (List<SelfAssessment.Answer>) JSON.deserialize(
@@ -38,7 +39,7 @@ public with sharing class SelfAssessmentController {
                 List<SelfAssessment.Answer>.class
             );
             SelfAssessmentService serv = new SelfAssessmentService(selfAssessmentId);
-            serv.saveAnswers(lstAnswers);
+            serv.saveAnswers(lstAnswers, isFinalSubmit);
             return 'success';
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());

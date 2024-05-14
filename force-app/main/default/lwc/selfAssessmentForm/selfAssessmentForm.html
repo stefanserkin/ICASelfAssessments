@@ -98,14 +98,20 @@
                         </div>
                     </template>
 
-                    <!-- SUBMIT BUTTON -->
+                    <!-- SAVE AND SUBMIT BUTTONS -->
                     <div class="slds-text-align_right slds-var-m-vertical_large">
+                        <lightning-button
+                            variant="brand-outline"
+                            title="Save Progress"
+                            label="Save Progress"
+                            onclick={handleSaveProgress}
+                        ></lightning-button>
                         <lightning-button
                             variant="brand"
                             title="Submit"
                             label="Submit"
                             onclick={handleSubmit}
-                            class="slds-var-m-around_medium"
+                            class="slds-var-m-left_small"
                         ></lightning-button>
                     </div>
                     

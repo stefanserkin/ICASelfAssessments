@@ -1,5 +1,6 @@
 import { LightningElement, api, wire } from 'lwc';
-import { NavigationMixin } from "lightning/navigation";
+import { NavigationMixin } from 'lightning/navigation';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { RefreshEvent } from 'lightning/refresh';
 import getSelfAssessment from '@salesforce/apex/SelfAssessmentController.getSelfAssessment';
 import submitSelfAssessment from '@salesforce/apex/SelfAssessmentController.submitSelfAssessment';
@@ -17,6 +18,7 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
 
     wiredAssessment = [];
     assessment;
+    originalAnswers;
     answers;
 
     get showCardTitle() {
@@ -53,6 +55,7 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
                     }
                 }
             });
+            this.originalAnswers = this.answers;
             this.error = undefined;
             this.isLoading = false;
         } else if (result.error) {
@@ -61,6 +64,10 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
             console.error(this.error);
             this.isLoading = false;
         }
+    }
+
+    get disableSave() {
+        return (this.originalAnswers == null || this.answers == null || (this.originalAnswers == this.answers));
     }
 
     getRatingScaleValues(answer) {
@@ -97,6 +104,28 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
         }
     }
 
+    handleSaveProgress() {
+        console.log('handle save progress');
+        this.isLoading = true;
+
+        const request = JSON.stringify(this.answers);
+        submitSelfAssessment({selfAssessmentId: this.recordId, jsonAnswerString: request, isFinalSubmit: false})
+            .then((result) => {
+                this.isLoading = false;
+                this.dispatchEvent(new RefreshEvent());
+                const event = new ShowToastEvent({
+                    title: 'Success!',
+                    message: 'Your progress has been saved.',
+                    variant: 'success'
+                });
+                this.dispatchEvent(event);
+            }).catch((error) => {
+                this.error = error;
+                console.error(this.error);
+                this.isLoading = false;
+            });
+    }
+
     handleSubmit() {
         this.isLoading = true;
         let allValid = true;
@@ -112,16 +141,12 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
         
         // Submit form
         const request = JSON.stringify(this.answers);
-        submitSelfAssessment({
-            selfAssessmentId: this.recordId, 
-            jsonAnswerString: request
-        })
+        submitSelfAssessment({selfAssessmentId: this.recordId, jsonAnswerString: request, isFinalSubmit: true})
             .then((result) => {
                 this.isSubmitted = true;
                 this.isLoading = false;
                 this.dispatchEvent(new RefreshEvent());
-            })
-            .catch((error) => {
+            }).catch((error) => {
                 this.error = error;
                 console.error(this.error);
                 this.isLoading = false;
