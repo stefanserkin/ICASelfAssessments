@@ -18,8 +18,7 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
 
     wiredAssessment = [];
     assessment;
-    originalAnswers;
-    answers;
+    answers = [];
 
     get showCardTitle() {
         return !this.hideCardTitle;
@@ -55,7 +54,6 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
                     }
                 }
             });
-            this.originalAnswers = this.answers;
             this.error = undefined;
             this.isLoading = false;
         } else if (result.error) {
@@ -64,10 +62,6 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
             console.error(this.error);
             this.isLoading = false;
         }
-    }
-
-    get disableSave() {
-        return (this.originalAnswers == null || this.answers == null || (this.originalAnswers == this.answers));
     }
 
     getRatingScaleValues(answer) {
@@ -105,7 +99,6 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
     }
 
     handleSaveProgress() {
-        console.log('handle save progress');
         this.isLoading = true;
 
         const request = JSON.stringify(this.answers);
