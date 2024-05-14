@@ -67,7 +67,7 @@ private class SelfAssessmentController_Test {
         String result;
         Test.startTest();
         System.runAs(u) {
-            result = SelfAssessmentController.submitSelfAssessment(sa.Id, JSON.serialize(assessment.answers));
+            result = SelfAssessmentController.submitSelfAssessment(sa.Id, JSON.serialize(assessment.answers), true);
         }
         Test.stopTest();
 
@@ -121,7 +121,7 @@ private class SelfAssessmentController_Test {
         Test.startTest();
         System.runAs(u) {
             try {
-                String result = SelfAssessmentController.submitSelfAssessment(sa.Id, badJson);
+                String result = SelfAssessmentController.submitSelfAssessment(sa.Id, badJson, true);
                 Assert.fail('Should have received an exception');
             } catch (Exception e) {
                 testHasException = true;

@@ -64,7 +64,7 @@ private class SelfAssessmentService_Test {
         User u = SelfAssessmentTestDataFactory.createTestUser('Rey', 'Ordonez', 'Admin');
         Test.startTest();
         System.runAs(u) {
-            service.saveAnswers(assessment.answers);
+            service.saveAnswers(assessment.answers, true);
         }
         Test.stopTest();
 
