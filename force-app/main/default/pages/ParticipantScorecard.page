@@ -1,0 +1,27 @@
+<apex:page controller="ParticipantScorecardController" renderAs="pdf">
+    <!-- HEADER -->
+    <apex:sectionHeader title="Participant Scorecard" subtitle="{!programEngagement.Name}" />
+
+    <!-- SELF-ASSESSMENTS AND ANSWERS -->
+    <apex:pageBlock title="ICA Surveys">
+        <apex:repeat value="{!selfAssessments}" var="sa">
+            <apex:pageBlockSection title="Self-Assessment: {!sa.Name}">
+                <apex:repeat value="{!sa.Self_Assessment_Answers__r}" var="answer">
+                    <apex:outputText label="" value="{!answer.Question__c} " />
+                    <apex:outputText label="" rendered="{!answer.Question_Type__c == 'Rating Scale'}" value="{!answer.Answer_Number__c}" />
+                    <apex:outputText label="" rendered="{!answer.Question_Type__c != 'Rating Scale'}" value="{!answer.Answer_Text_Area__c}" />
+                </apex:repeat>
+            </apex:pageBlockSection>
+        </apex:repeat>
+    </apex:pageBlock>
+
+    <!-- SERVICE DELIVERIES -->
+    <apex:pageBlock title="Attendance Summary">
+        <apex:repeat value="{!serviceDeliveries}" var="sd">
+            <apex:pageBlockSection title="Service Delivery: {!sd.Name}">
+                <apex:outputText value="Date: {!sd.pmdm__DeliveryDate__c}" /><br/>
+                <apex:outputText value="Attendance Status: {!sd.pmdm__AttendanceStatus__c}" /><br/>
+            </apex:pageBlockSection>
+        </apex:repeat>
+    </apex:pageBlock>
+</apex:page>
