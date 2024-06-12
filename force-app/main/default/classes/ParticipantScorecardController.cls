@@ -20,7 +20,7 @@ public class ParticipantScorecardController {
         ];
 
         selfAssessments = [
-            SELECT Id, Name,
+            SELECT Id, Name, Service_Schedule_Name__c, Service_Session__r.Name,
                    (SELECT Id, Question__c, Answer_Number__c, Answer_Text_Area__c, Question_Type__c
                       FROM Self_Assessment_Answers__r)
               FROM Self_Assessment__c

@@ -1,4 +1,15 @@
-<apex:page controller="ParticipantScorecardController" renderAs="pdf">
+<!-- URL for this page: -->
+<!-- /apex/ParticipantScorecard?id={!programEngagementId} -->
+<!-- Replace programEngagementId with the id of the program engagement -->
+<apex:page controller="ParticipantScorecardController" renderAs="pdf" applyBodyTag="false">
+    <head>
+        <style>
+            @page {
+                size: A4 landscape;
+            }
+        </style>
+    </head>
+
     <!-- HEADER -->
     <apex:sectionHeader title="Participant Scorecard" subtitle="{!programEngagement.Name}" />
 
