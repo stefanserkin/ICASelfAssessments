@@ -76,7 +76,8 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
         const values = [];
         if (answer.picklistValues) {
             answer.picklistValues.split(';').forEach(value => {
-                values.push({label: value.toString(), value: value.toString()})
+                let trimmedValue = value.toString().trim();
+                values.push({label: trimmedValue, value: trimmedValue});
             });
         }
         return values;
