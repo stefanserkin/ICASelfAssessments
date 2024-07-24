@@ -25,10 +25,10 @@ export default class RatingScaleField extends LightningElement {
     get selectableOptions() {
         const step = this.step || 1;
         let values = [];
-        for (let val = this.minValue; val <= this.maxValue; val += this.step) {
+        for (let val = this.minValue; val <= this.maxValue; val += step) {
             values.push({
                 label: val.toString(),
-                value: val,
+                value: val.toString(),
                 checked: this.value === val
             });
         }
@@ -45,6 +45,10 @@ export default class RatingScaleField extends LightningElement {
 
     get isSlider() {
         return this.displayType === 'Slider';
+    }
+
+    get radioGroupName() {
+        return `rating-scale-${this.label}`;
     }
 
     handleChange(event) {

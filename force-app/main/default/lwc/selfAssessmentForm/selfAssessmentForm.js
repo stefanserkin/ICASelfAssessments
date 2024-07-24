@@ -87,9 +87,14 @@ export default class SelfAssessmentForm extends NavigationMixin(LightningElement
         const selectedId = event.target.dataset.id;
         const selectedValue = event.detail.value;
         const answerIndex = this.answers.findIndex(answer => answer.id === selectedId);
+        console.log(':::: selectedId --> ', selectedId);
+        console.log(':::: selectedValue --> ', selectedValue);
+        console.log(':::: answerIndex --> ', answerIndex);
 
         if (answerIndex !== -1) {
             if (this.answers[answerIndex].questionType === 'Rating Scale') {
+                console.log('::::: updated value --> ' + selectedValue);
+                console.log('::::: answer before value --> ' + this.answers[answerIndex].answerNumber);
                 this.answers[answerIndex].answerNumber = Number(selectedValue);
             } else if (this.answers[answerIndex].questionType === 'Text Area' || this.answers[answerIndex].questionType === 'Picklist') {
                 this.answers[answerIndex].answerText = selectedValue;
